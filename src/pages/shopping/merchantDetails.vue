@@ -85,7 +85,7 @@
             </div>
         </div>
         <!--购物车-->
-        <div class="buy_cart" v-if="titleIndex===0">
+        <div class="buy_cart" v-if="titleIndex===0" @click="skipCart">
             <img src="../../assets/images/cart3.png" alt="">
             <div class="number">1</div>
         </div>
@@ -250,9 +250,6 @@
             skip(index) {
                 this.floorIndex = index;
                 document.getElementById(index).scrollIntoView();
-                if (this.floorIndex !== this.floorList.length - 1) {
-
-                }
             },
             orderScroll() {
                 let a = this.$refs.Box.scrollHeight;
@@ -267,6 +264,11 @@
                     this.floorIndex = this.floorList.length - 1;
                 }
             },
+            skipCart(){
+                this.$router.push({
+                    path:'/cart'
+                })
+            }
         }
     }
 </script>
@@ -275,7 +277,6 @@
     #merchantDetails {
         height: 100%;
     }
-
     .merchant_head {
         height: 132px;
         background: #3C4DAF;
