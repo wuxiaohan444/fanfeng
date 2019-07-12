@@ -243,6 +243,9 @@
         .shopping-class {
             padding: 0 16px;
             box-sizing: border-box;
+            display: flex;
+            flex-flow: row wrap;
+            align-content: flex-start;
             .shopping-class_item {
                 background: white;
                 height: 210px;
@@ -253,7 +256,6 @@
                 box-sizing: border-box;
                 margin-left: 14px;
                 margin-bottom: 14px;
-                float: left;
                 p {
                     font-size: 28px;
                 }
