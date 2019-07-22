@@ -3,7 +3,7 @@
         <!--地址-->
         <div class="address">
             <img src="../assets/images/address.png" alt="">
-            <span>台州市黄岩区新前镇院大道24号</span>
+            <span>{{address}}</span>
         </div>
         <!--轮播-->
         <div class="swiper-container">
@@ -47,7 +47,9 @@
         </div>
         <div class="tenant_main">
             <div class="tenant_main_item">
-                <img src="" alt="">
+                <div class="item_left">
+                    <img src="" alt="">
+                </div>
                 <div class="item_right">
                     <h5>佳丽美容店</h5>
                     <div class="tenant_class">
@@ -65,7 +67,9 @@
 
             </div>
             <div class="tenant_main_item">
-                <img src="" alt="">
+                <div class="item_left">
+                    <img src="" alt="">
+                </div>
                 <div class="item_right">
                     <h5>佳丽美容店</h5>
                     <div class="tenant_class">
@@ -89,6 +93,7 @@
 
 <script>
     import Swiper from "swiper"
+    import {MP} from "../assets/map/map";
     import navigationBar from "../components/navigationBar"
 
     export default {
@@ -125,7 +130,10 @@
                         img: require("../assets/images/gym.png"),
                         name: '健身房'
                     }
-                ]
+                ],
+                address: '',
+                lat: '',//纬度
+                lng: '',//经度
             }
         },
         components: {
@@ -133,6 +141,7 @@
         },
         mounted() {
             this.initSwiper();
+            this.createMap();
         },
         methods: {
             initSwiper() {
@@ -154,7 +163,60 @@
                         prevEl: ".swiper-button-prev"
                     }
                 })
+            },
+            createMap() {
+                if (!sessionStorage.getItem("map")) {
+                    MP("4IU3oIAMpZhfWZsMu7xzqBBAf6vMHcoa").then(BMap => {
+                        // 创建Map实例
+                        let geolocation = new BMap.Geolocation();
+                        let that = this;
+                        geolocation.getCurrentPosition(function (r) {
+                            if (this.getStatus() === BMAP_STATUS_SUCCESS) {
+                                //以指定的经度与纬度创建一个坐标点
+                                let pt = new BMap.Point(r.point.lng, r.point.lat);
+                                //创建一个地理位置解析器
+                                let geoc = new BMap.Geocoder();
+                                geoc.getLocation(pt, function (rs) {//解析格式：城市，区县，街道
+                                    that.address = rs.address;
+                                    that.lat = rs.point.lat;
+                                    that.lng = rs.point.lng;
+                                    sessionStorage.setItem("map", rs.address);
+                                    sessionStorage.setItem("lat", that.lat);
+                                    sessionStorage.setItem("lng", that.lng);
+                                });
+                            }
+                            else {
+                                $(ev.currentTarget).text('定位失败');
+                            }
+                        }, {enableHighAccuracy: true})//指示浏览器获取高精度的位置，默认false
+                    })
+                } else {
+                    this.address = sessionStorage.getItem("map");
+                    this.lat = sessionStorage.getItem("lat");
+                    this.lng = sessionStorage.getItem("lng");
+                }
+            },
+            // 查看附件商家
+            getNearby() {
+                this.$axios({
+                    method: 'get',
+                    url: '/inspector/index/nearby',
+                    params: {
+                        latitude: this.lat,
+                        longitude: this.lng,
+                        login_address: this.address
+                    }
+                }).then((res) => {
+                    if (res.data.code === 0) {
+
+                    } else {
+                        alert(res.data.data);
+                    }
+                })
             }
+        },
+        destroyed() {
+            this.createMap = null
         }
     }
 </script>

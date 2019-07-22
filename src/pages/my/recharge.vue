@@ -2,13 +2,13 @@
     <div id="recharge">
         <div class="list">油品号</div>
         <div class="list_item">
-            <input type="text" placeholder="请输入充值金额">
+            <input type="text" placeholder="请输入充值金额" v-model="money">
         </div>
         <div class="choose_money">
-            <div>100元</div>
-            <div>200元</div>
-            <div>300元</div>
-            <div>500元</div>
+            <div :class="moneyIndex===0?'active':'' " @click="chooseMoney(100,0)">100元</div>
+            <div :class="moneyIndex===1?'active':'' " @click="chooseMoney(200,1)">200元</div>
+            <div :class="moneyIndex===2?'active':'' " @click="chooseMoney(300,2)">300元</div>
+            <div :class="moneyIndex===3?'active':'' " @click="chooseMoney(500,3)">500元</div>
         </div>
         <div class="btn">立即支付</div>
     </div>
@@ -16,7 +16,19 @@
 
 <script>
     export default {
-        name: "recharge"
+        name: "recharge",
+        data() {
+            return {
+                money: '',
+                moneyIndex: ''
+            }
+        },
+        methods: {
+            chooseMoney(money, index) {
+                this.money = money;
+                this.moneyIndex = index;
+            }
+        }
     }
 </script>
 
@@ -56,6 +68,10 @@
             float: left;
             margin-top: 20px;
         }
+        > div.active {
+            background:  rgba(91, 122, 237, 1);
+            color: white;
+        }
         > div:nth-child(1), > div:nth-child(2) {
             margin-top: 30px;
         }
@@ -67,10 +83,10 @@
     .btn {
         font-size: 36px;
         text-align: center;
-        width:630px;
-        height:88px;
-        background:rgba(91,122,237,1);
-        border-radius:44px;
+        width: 630px;
+        height: 88px;
+        background: rgba(91, 122, 237, 1);
+        border-radius: 44px;
         line-height: 88px;
         color: white;
         margin: 100px auto;

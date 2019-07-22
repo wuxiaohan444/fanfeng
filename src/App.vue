@@ -44,12 +44,15 @@
         height: 200px;
         padding: 0 30px;
         position: relative;
-        >img{
+        .item_left{
             width:170px;
             height:126px;
             background:rgba(255,255,255,1);
             border:1px solid rgba(204, 204, 204, 1);
             border-radius:8px;
+            >img{
+
+            }
         }
         .item_right{
             margin-left: 30px;

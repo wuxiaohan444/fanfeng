@@ -8,23 +8,23 @@
         <div class="list">油品号</div>
         <div class="list_item">
             <label for=""></label><select name="" id="">
-                <option value="">请选择油品号</option>
-                <option value="">92号</option>
-                <option value="">95号</option>
-                <option value="">97号</option>
-                <option value="">柴油</option>
-            </select>
+            <option value="">请选择油品号</option>
+            <option value="">92号</option>
+            <option value="">95号</option>
+            <option value="">97号</option>
+            <option value="">柴油</option>
+        </select>
         </div>
         <div class="list">金额</div>
         <div class="list_item">
-            <input type="text" placeholder="请输入加油金额">
+            <input type="text" placeholder="请输入加油金额" v-model="money">
         </div>
 
         <div class="choose_money">
-            <div>100元</div>
-            <div>200元</div>
-            <div>300元</div>
-            <div>500元</div>
+            <div :class="moneyIndex===0?'active':''" @click="chooseMoney(100,0)">100元</div>
+            <div :class="moneyIndex===1?'active':''" @click="chooseMoney(200,1)">200元</div>
+            <div :class="moneyIndex===2?'active':''" @click="chooseMoney(300,2)">300元</div>
+            <div :class="moneyIndex===3?'active':''" @click="chooseMoney(500,3)">500元</div>
         </div>
 
         <div class="payType">
@@ -33,18 +33,20 @@
                     <img src="../assets/images/balance.png" alt="">
                     <span>余额支付</span>
                 </div>
-                <img :src="payType===0?require('../assets/images/selected.png'):require('../assets/images/unselected.png')" alt="">
+                <img :src="payType===0?require('../assets/images/selected.png'):require('../assets/images/unselected.png')"
+                     alt="">
             </div>
             <div class="pay_item" @click="chooseType(1)">
                 <div>
                     <img src="../assets/images/wxpay.png" alt="">
                     <span>微信支付</span>
                 </div>
-                <img :src="payType===1?require('../assets/images/selected.png'):require('../assets/images/unselected.png')" alt="">
+                <img :src="payType===1?require('../assets/images/selected.png'):require('../assets/images/unselected.png')"
+                     alt="">
             </div>
         </div>
 
-        <div class="pay">立即支付</div>
+        <div class="pay" @click="pay">立即支付</div>
         <navigationBar></navigationBar>
     </div>
 </template>
@@ -59,12 +61,33 @@
         },
         data() {
             return {
-                payType: 0
+                payType: 0,
+                money: '',
+                moneyIndex: ''
             }
         },
         methods: {
             chooseType(type) {
                 this.payType = type;
+            },
+            chooseMoney(money, index) {
+                this.money = money;
+                this.moneyIndex = index;
+            },
+            pay() {
+                this.$axios({
+                    method: 'get',
+                    url: '/customer/device/deviceCount',
+                    params: {
+
+                    }
+                }).then((res) => {
+                    if (res.data.code === 0) {
+
+                    } else {
+                        alert(res.data.data);
+                    }
+                })
             }
         }
     }
@@ -114,6 +137,10 @@
             line-height: 70px;
             float: left;
             margin-top: 20px;
+        }
+        > div.active {
+            background: #5b7aed;
+            color: white;
         }
         > div:nth-child(1), > div:nth-child(2) {
             margin-top: 30px;

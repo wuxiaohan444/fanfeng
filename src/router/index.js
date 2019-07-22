@@ -10,6 +10,7 @@ import shopping from "@/pages/shopping"
 import machineList from "@/pages/shopping/machineList"
 import drone from "@/pages/drone"
 import merchantDetails from "@/pages/shopping/merchantDetails"
+import goodsDetails from "@/pages/shopping/goodsDetails"
 import cart from "@/pages/cart"
 
 
@@ -62,6 +63,10 @@ export default new Router({
             path:'/machineList',
             name:'machineList',
             component:machineList
+        },{
+            path:'/goodsDetails',
+            name:'goodsDetails',
+            component:goodsDetails
         }
     ]
 })

@@ -16,9 +16,10 @@ Vue.prototype.fixedIp = function () {//固定ip
 Vue.prototype.bus = new Vue;
 Vue.prototype.$qs = qs;
 Vue.prototype.$axios = axios;
-
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 Vue.config.productionTip = false;
+
 
 new Vue({
     render: h => h(App),

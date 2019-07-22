@@ -9,7 +9,9 @@
         </div>
         <div class="tenant_main">
             <div class="tenant_main_item" @click="skipDetails">
-                <img src="" alt="">
+                <div class="item_left">
+                    <img src="" alt="">
+                </div>
                 <div class="item_right">
                     <h5>佳丽美容店</h5>
                     <div class="hot">热门推荐</div>
@@ -27,7 +29,10 @@
                 </div>
             </div>
             <div class="tenant_main_item">
-                <img src="" alt="">
+                <div class="item_left">
+                    <img src="" alt="">
+                </div>
+
                 <div class="item_right">
                     <h5>佳丽美容店</h5>
                     <div class="tenant_class">
@@ -92,9 +97,9 @@
             chooseClass(id) {
                 this.titleIndex = id;
             },
-            skipDetails(){
+            skipDetails() {
                 this.$router.push({
-                    path:'/merchantDetails'
+                    path: '/merchantDetails'
                 })
             }
         }
